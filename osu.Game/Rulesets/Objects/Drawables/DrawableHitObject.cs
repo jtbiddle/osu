@@ -14,6 +14,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Extensions.TypeExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Primitives;
+using osu.Framework.Logging;
 using osu.Framework.Threading;
 using osu.Framework.Utils;
 using osu.Game.Audio;
@@ -279,7 +280,7 @@ namespace osu.Game.Rulesets.Objects.Drawables
 
                 // Combo colour may have been applied via a bindable flow while no object entry was attached.
                 // Update here to ensure we're in a good state.
-                UpdateComboColour();
+                //UpdateComboColour();
             }
         }
 
@@ -543,6 +544,8 @@ namespace osu.Game.Rulesets.Objects.Drawables
                 colour = Interpolation.ValueAt(Math.Abs(comboColourBrightness.Value), colour, new HSPAColour(colour) { P = 0.6f }.ToColor4(), 0, 1);
             }
 
+            string debug = "Combo colour: " + colour;
+            Logger.LogPrint(debug);
             AccentColour.Value = colour;
         }
 

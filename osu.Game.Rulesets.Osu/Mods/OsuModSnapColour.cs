@@ -8,6 +8,7 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Objects;
 using osu.Game.Rulesets.Objects.Drawables;
 using osu.Game.Screens.Edit;
+using osuTK.Graphics;
 
 namespace osu.Game.Rulesets.Osu.Mods
 {
@@ -33,10 +34,16 @@ namespace osu.Game.Rulesets.Osu.Mods
 
             drawable.ApplyCustomUpdateState += (drawableObject, state) =>
             {
-                int snapDivisor = currentBeatmap.ControlPointInfo.GetClosestBeatDivisor(drawableObject.HitObject.StartTime);
+                //drawableObject.EnableComboColour = false;
 
-                drawableObject.EnableComboColour = false;
-                drawableObject.AccentColour.Value = BindableBeatDivisor.GetColourFor(snapDivisor, colours);
+                int snapDivisor = currentBeatmap.ControlPointInfo.GetClosestBeatDivisor(drawableObject.HitObject.StartTime);
+                Color4 snapColour = BindableBeatDivisor.GetColourFor(snapDivisor, colours);
+
+                //The default white is too bright for kiai to be visible, so set it to a light grey
+                if (snapColour.Equals(Color4.White))
+                    snapColour = colours.GrayD;
+
+                drawableObject.AccentColour.Value = snapColour;
             };
         }
     }

@@ -12,9 +12,12 @@ using osu.Framework.Bindables;
 using osu.Framework.Extensions.ObjectExtensions;
 using osu.Framework.Extensions.TypeExtensions;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Cursor;
 using osu.Framework.Localisation;
 using osu.Game.Graphics.UserInterface;
+using osu.Game.Graphics.UserInterfaceV2;
 using osu.Game.Overlays.Settings;
+using osuTK;
 
 namespace osu.Game.Configuration
 {
@@ -183,6 +186,17 @@ namespace osu.Game.Configuration
                             TooltipText = attr.Description,
                             Current = bString
                         };
+
+                        break;
+
+                    case BindableColour4 bColour4:
+                        PopoverContainer container = new PopoverContainer();
+                        ColourDisplay currentColour = new ColourDisplay();
+                        container.Scale = new Vector2(0.4f, 0.4f);
+                        currentColour.Current = bColour4;
+                        currentColour.OnLoadComplete += _ => { currentColour.ColourName = attr.Label; };
+                        container.Add(currentColour);
+                        yield return container;
 
                         break;
 
